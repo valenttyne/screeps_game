@@ -6,7 +6,7 @@ var runDefensores = require('run.defensores');
 var runDefensoresEx = require('run.defensoresEx');
 var runHealer = require('run.healer');
 var runWhiteTiger = require('run.whitetiger');
-var runConstrutorExterno = require('run.construtorExterno');
+var runConstrutorExterno = require('run.construtorExterno'); // TODO
 
 var runMinerador = require('run.minerador');
 var roleAtualizadores = require('role.atualizadores');
@@ -86,7 +86,7 @@ var runLoop = {
             if(ENERGIA_ATUAL >= ENERGIA_MAXIMA){
                  
                 if(creep.memory.role == 'construtor') {
-                   runConstrutorExterno.run(creep,FONTE_CONSTRUTORES);
+                   roleConstrutor.run(creep,FONTE_CONSTRUTORES);
                 }else if(creep.memory.role == 'batedorDrop') {
                    roleBatedorDrop.run(creep,FONTE_MINERADORES);
                 }else if(creep.memory.role == 'muralhas') {
@@ -96,8 +96,8 @@ var runLoop = {
                 }else if(creep.memory.role == 'ajudanteAtualizador'){
                     runAjudantesAtualizadores.run(creep,FONTE_ATUALIZADORES);
                 }else{
-                    if(creep.memory.sala == 'E44N43'){
-                        roleAtualizadores.run(creep,'5bbcaf909099fc012e63ac7f');
+                    if(creep.memory.sala == NOME_SALA2){
+                        roleAtualizadores.run(creep,FONTE_ATUALIZADORES_SALA2);
                     }else{
                         roleAtualizadores.run(creep,FONTE_ATUALIZADORES);
                     }
@@ -105,22 +105,22 @@ var runLoop = {
                 
             }else{
                 if(creep.memory.role == 'minerador') {
-                    if(creep.memory.sala == 'E44N43'){
-                        runMinerador.run(creep,'5bbcaf909099fc012e63ac7e',APENAS_DEPOSITA);
+                    if(creep.memory.sala == NOME_SALA2){
+                        runMinerador.run(creep,FONTE_MINERADORES_SALA2,APENAS_DEPOSITA);
                     }else{
                         NUMERO_MINERADORES_ATIVOS++;
                         runMinerador.run(creep,FONTE_MINERADORES,APENAS_DEPOSITA);
                     }
                 }else
                 if(creep.memory.role == 'atualizador') {                    
-                    if(creep.memory.sala == 'E44N43'){
-                        roleAtualizadores.run(creep,'5bbcaf909099fc012e63ac7f');
+                    if(creep.memory.sala == NOME_SALA2){
+                        roleAtualizadores.run(creep,FONTE_ATUALIZADORES_SALA2);
                     }else{
                         roleAtualizadores.run(creep,FONTE_ATUALIZADORES);
                     }
                 }else 
                 if(creep.memory.role == 'construtor') {
-                    runConstrutorExterno.run(creep,FONTE_CONSTRUTORES);
+                    roleConstrutor.run(creep,FONTE_CONSTRUTORES);
                 }else
                 if(creep.memory.role == 'batedorDrop') {
                     roleBatedorDrop.run(creep,FONTE_MINERADORES);

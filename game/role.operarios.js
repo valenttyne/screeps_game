@@ -61,35 +61,36 @@ var roleOperarios = {
         }         
         
         //---spaw 2
-        var minerador2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'minerador'  && creep.memory.sala == SALA_CLAIM_DIREITA);
-        var atualizador2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'atualizador' && creep.memory.sala == SALA_CLAIM_DIREITA);
-        var construtor2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'construtor' && creep.memory.sala == SALA_CLAIM_DIREITA);
-        
-        //tipo do operario
-        var tipoOperador='';
-        if(minerador2.length < NUMERO_MINEIROS){
-            tipoOperador='minerador';
-        }else if(atualizador2.length < NUMERO_ATUALIZADORES){
-            tipoOperador='atualizador';
-        }else if(construtor2.length < NUMERO_CONSTRUTORES){
-            tipoOperador='construtor';        }
-        
-        novoOperario = false;
-        
-        if(en >= 200){
-            //nivel do operarios a ser feito
-            var operario = configOperarios.retornaOperario();
-            novoOperario = true;
+        if(NOME_SPAW2 != ''){
+            var minerador2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'minerador'  && creep.memory.sala == SALA_CLAIM_DIREITA);
+            var atualizador2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'atualizador' && creep.memory.sala == SALA_CLAIM_DIREITA);
+            var construtor2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'construtor' && creep.memory.sala == SALA_CLAIM_DIREITA);
+            
+            //tipo do operario
+            var tipoOperador='';
+            if(minerador2.length < NUMERO_MINEIROS){
+                tipoOperador='minerador';
+            }else if(atualizador2.length < NUMERO_ATUALIZADORES){
+                tipoOperador='atualizador';
+            }else if(construtor2.length < NUMERO_CONSTRUTORES){
+                tipoOperador='construtor';        }
+            
+            novoOperario = false;
+            
+            if(en >= 200){
+                //nivel do operarios a ser feito
+                var operario = configOperarios.retornaOperario();
+                novoOperario = true;
+            }
+            
+            
+            //verifica se tem que spawing alguem e o faz  
+            if(tipoOperador != '' && novoOperario){
+                var newName = tipoOperador + Game.time+SALA_CLAIM_DIREITA;
+                console.log(tipoOperador);
+                Game.spawns[NOME_SPAW2].spawnCreep(operario, newName,{memory: {role: tipoOperador,sala:SALA_CLAIM_DIREITA}});    
+            } 
         }
-        
-        
-        //verifica se tem que spawing alguem e o faz  
-        if(tipoOperador != '' && novoOperario){
-            var newName = tipoOperador + Game.time+SALA_CLAIM_DIREITA;
-            console.log(tipoOperador);
-            Game.spawns['Forever2'].spawnCreep(operario, newName,{memory: {role: tipoOperador,sala:SALA_CLAIM_DIREITA}});    
-        } 
-        
         //------------------------
 
         

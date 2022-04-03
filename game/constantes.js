@@ -76,5 +76,9 @@ global.INVASOR_SALA = '';
 global.INVASOR_SALA_COLETA_D = false;
 global.INVASOR_SALA_COLETA_E = false;
 
-global.SPAW2_LIBERADO = false; // true quando tiver liberado o 2 spaw
 global.NOME_SALA2 = ''; // nome da sala do segundo spaw
+global.NOME_SPAW2 = ''; // coloquei aqui o nome do seu 2 spaw
+
+global.FONTE_CONSTRUTORES_SALA2 = ''; // coloquei aqui o id da font que será usada pelos construtores
+global.FONTE_ATUALIZADORES_SALA2 = ''; // coloquei aqui o id da font que será usada pelos atualizadores 
+global.FONTE_MINERADORES_SALA2 = ''; // coloquei aqui o id da font que será usada pelos mineradores
