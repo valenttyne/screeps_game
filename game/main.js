@@ -1,20 +1,20 @@
 require('constantes');
 
-var roleOperarios = require('role.operarios');
-var roleDefensores = require('role.defensores');
-var roleTorres = require('role.torres');
-var roleHealer = require('role.healer');
-var roleNotificacoes = require('ui.notificacoes');
 var util = require('util');
-var roleClaim = require('role.claim');
-var roleMineradorExternos = require('role.mineradorExternos');
-var runLoop = require('run.loop');
 var exploracao = require('exploracao');
+
+var controleOperarios = require('role.operarios');
+var controleDefensores = require('role.defensores');
+var controleTorres = require('role.torres');
+var controleHealer = require('role.healer');
+var controleNotificacoes = require('ui.notificacoes');
+var controleClaim = require('role.claim');
+var controleOperarioExternos = require('role.mineradorExternos');
+var controleMovimentoGeral = require('run.loop');
+
 
 module.exports.loop = function () {
     
-
-    //console.log(getCidades());
 
     var hostiles = Game.rooms[NOME_SALA].find(FIND_HOSTILE_CREEPS);
     var hostilesPower = Game.rooms[NOME_SALA].find(FIND_HOSTILE_POWER_CREEPS);
@@ -34,6 +34,7 @@ module.exports.loop = function () {
             //console.log('Limpando creep morto da memoria:', name);
         }
     }
+
     /* todos eventos hostis em minhas estrutura e creeps
     _.forEach(Game.rooms, room => {
         let eventLog = room.getEventLog();
@@ -47,11 +48,11 @@ module.exports.loop = function () {
     });
     */
     
-    //criando e controlando os operarios
+    //configurando a prioridade dos operarios
     ENERGIA_ATUAL = Game.rooms[NOME_SALA].energyAvailable;
     ENERGIA_MAXIMA = Game.rooms[NOME_SALA].energyCapacityAvailable;
     
-    //console.log(ENERGIA_MAXIMA);
+    
     var percPower = util.arredondar((ENERGIA_ATUAL / ENERGIA_MAXIMA)*100,2);    
     var energiaArray = [RESERVA_ENERGIA_CREEP,ENERGIA_MAXIMA];
     var media = util.calcularMedia(energiaArray);
@@ -64,9 +65,11 @@ module.exports.loop = function () {
     }else{
         APENAS_DEPOSITA = false;
     }
+    //fim da configuracao de prioridade
+
     var percIdeal100 = percIdeal *100;
     var tx01 = '🔋: ' + ENERGIA_ATUAL+ '/' +ENERGIA_MAXIMA+' - 🔌'+percPower+'% - ⭐Ideal: '+percIdeal100+'%';
-    roleNotificacoes.topo(tx01,-0+(NOTIFICACOES_X), -6+(NOTIFICACOES_Y));
+    controleNotificacoes.topo(tx01,-0+(NOTIFICACOES_X), -6+(NOTIFICACOES_Y));
     
     /*
     for(var name in Game.rooms) {
@@ -75,34 +78,37 @@ module.exports.loop = function () {
     
     
     //padrao room principal
-    roleOperarios.colocaParaTrabalhar();
+    controleOperarios.colocaParaTrabalhar();
     
     //torres
     var towers = Game.rooms[NOME_SALA].find( FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}});
     if(towers.length > 0){
-        roleTorres.emGuarda(towers,hostiles);
+        controleTorres.emGuarda(towers,hostiles);
     }       
     
     //war Claim
-    roleClaim.claim();
+    if(SALA_CLAIM_DIREITA != '' || SALA_CLAIM_ESQUERDA != ''){
+      controleClaim.claim();  
+    }    
 
     //Mineradores
-    roleMineradorExternos.coletar();
+    if(SALA_COLETA_DIREITA != '' || SALA_COLETA_ESQUERDA != ''){
+        controleOperarioExternos.coletar();
+    }
     
     //Defensores
-    roleDefensores.defesa(hostiles,hostilesPower);
+    controleDefensores.defesa(hostiles,hostilesPower);
     
     //Healer
-    roleHealer.curar(hostiles);
+    controleHealer.curar(hostiles);
     
     //LOOP geral dos creeps
-    runLoop.loop(hostiles,hostilesPower);
+    controleMovimentoGeral.loop(hostiles,hostilesPower);
 
-    //console.log(getCidades());
-
-    //TODO
-    var linkFrom = Game.getObjectById(LINK_ARMAZEM);
-    var linkTo = Game.getObjectById(LINK_RECEPTOR);
-    linkFrom.transferEnergy(linkTo);
+    if(LINK_ARMAZEM != ''){
+        var linkFrom = Game.getObjectById(LINK_ARMAZEM);
+        var linkTo = Game.getObjectById(LINK_RECEPTOR);
+        linkFrom.transferEnergy(linkTo);
+    }
    
 }

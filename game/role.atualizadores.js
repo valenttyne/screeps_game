@@ -10,19 +10,22 @@ var roleAtualizadores = {
         }
         
         var energia = Game.getObjectById(idEnergia);
-        
-        if(creep.memory.sala != 'E44N43'){
+
+        //tras creep de volta para sala
+        if(creep.memory.sala != NOME_SALA2){
             if(creep.room.name != NOME_SALA){
                 creep.say('⛔');
                 creep.moveTo(energia, {visualizePathStyle: {stroke: '#74fb00'}});
                 return;
             }
         }
+
         //--- controle para ficar Full 50 antes de ir para o up
         if(creep.memory.upgrading && creep.store[RESOURCE_ENERGY] == 0) {
             creep.memory.upgrading = false;
             //creep.say('🔄 Cons');
 	    }
+
 	    if(!creep.memory.upgrading && creep.store.getFreeCapacity() == 0) {
 	        creep.memory.upgrading = true;
 	        //creep.say('🚧 Construir');
@@ -45,7 +48,6 @@ var roleAtualizadores = {
                                 &&  i.id == STORE_ATUALIZADOR
                                
             });
-
 
             if(linksWithEnergy.length>0){
                 
