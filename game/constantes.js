@@ -14,10 +14,10 @@ global.USERNAME = Memory.username;
 
 
 global.NOME_SALA = exploracao.getCidades()[0];
-global.NOME_SPAW = "Forever"; // coloquei aqui o nome do seu spaw
-global.FONTE_CONSTRUTORES = '59bbc4372052a716c3ce790f'; // coloquei aqui o id da font que será usada pelos construtores
-global.FONTE_ATUALIZADORES = '59bbc4372052a716c3ce7910'; // coloquei aqui o id da font que será usada pelos atualizadores 
-global.FONTE_MINERADORES = '59bbc4372052a716c3ce7910'; // coloquei aqui o id da font que será usada pelos mineradores
+global.NOME_SPAW = ""; // coloquei aqui o nome do seu spaw
+global.FONTE_CONSTRUTORES = ''; // coloquei aqui o id da font que será usada pelos construtores
+global.FONTE_ATUALIZADORES = ''; // coloquei aqui o id da font que será usada pelos atualizadores 
+global.FONTE_MINERADORES = ''; // coloquei aqui o id da font que será usada pelos mineradores
 
 global.ENERGIA_MAXIMA = Game.rooms[NOME_SALA].energyCapacityAvailable;
 global.ENERGIA_ATUAL = Game.rooms[NOME_SALA].energyAvailable;
